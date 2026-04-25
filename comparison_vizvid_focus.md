@@ -42,7 +42,7 @@
 
 ## 3) Playlist UIが酷似
 
-**判定: 強い類似（High）**
+**判定: 中程度の類似（Medium）**
 
 - 両者とも EditorWindow + `ReorderableList` で、
   - 左: プレイリスト一覧
@@ -54,8 +54,12 @@
 - YamaPlayer には VizVid 取り込み経路が明示実装されており、VizVid の内部変数名（`playListTitles`, `playListUrlOffsets`, `playListUrls`, `playListEntryTitles`, `playListPlayerIndex`）を直接読んで変換している。
 - 対応表（1行要約）: `playListTitles -> PlaylistData.name | playListUrlOffsets -> urlOffset/urlCount（tracks切り出し境界） | playListUrls -> PlaylistTrack.url | playListEntryTitles -> PlaylistTrack.title | playListPlayerIndex -> PlaylistTrack.playerType`（`repos/YamaPlayer/Editor/Playlist/PlaylistImporter.cs:Line 213-217, 226-228, 237-247, 250-255` / 定義元 `repos/VVMW/Packages/idv.jlchntoz.vvmw/Runtime/VVMW/FrontendHandler_PlayList.cs:Line 9-13`）
 
+**反論（「OSSなら互換importは自然」「Unity Editor拡張ならUIが似る」）への評価**
+- この反論も妥当。OSS のエコシステムでは互換 import 実装は一般的で、Unity の `EditorWindow + ReorderableList` も定番構成。
+- そのため、ここも単独では決定打にしにくい。
+
 **所見**
-- UI/操作導線だけでなく、VizVid 互換 import の内部データマッピングまで含めると、単なる偶然一致の範囲は超えている。
+- 使うなら「互換性を意図して内部変数へ直接アクセスしている事実」の提示に留め、違法性・不当性の評価とは切り分けるのが安全。
 
 ---
 
@@ -90,9 +94,8 @@
 
 ## 総合（VizVid側主張を主軸にした整理）
 
-- **強い根拠が置ける争点**
-  1. Playlist UI/操作導線 + VizVid内部データ互換 import
 - **中程度根拠の争点**
+  1. Playlist UI/操作導線 + VizVid内部データ互換 import（ただしOSS互換実装・Unity標準UI構成で説明可能）
   2. YTDLP Solver 引数列の近似（ただし業界/用途上の収束可能性あり）
 - **補強根拠として使える争点**
   3. Event 駆動設計（属性配線 vs 文字列イベント駆動）
@@ -101,6 +104,6 @@
 
 ### 実務的な出し方（推奨）
 
-- 主張の芯は「**Playlist編集UX + VizVid互換 import の具体実装**」に置く。
-- YTDLP引数は「補強材料」として扱い、単体での同一性主張は避ける。
-- 残り3点は「設計思想の連続性」を示す補助線として提示し、過度な同一コード断定は避ける。
+- 本メモの5争点はいずれも、現状コード上は「設計・実装の近似」を示す材料であり、単体で強い断定根拠にはしにくい。
+- とくに Playlist UI/互換import・YTDLP引数は、OSS文化やUnity/用途上の収束で合理的に説明できる余地を明示した上で使う。
+- 主張する場合は、ライセンス条項・クレジット・由来説明など、非コード証拠と組み合わせて総合評価する。
