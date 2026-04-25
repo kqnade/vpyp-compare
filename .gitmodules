@@ -1,0 +1,6 @@
+[submodule "repos/VVMW"]
+	path = repos/VVMW
+	url = https://github.com/JLChnToZ/VVMW
+[submodule "repos/YamaPlayer"]
+	path = repos/YamaPlayer
+	url = https://github.com/koorimizuw/YamaPlayer
