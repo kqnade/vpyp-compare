@@ -11,15 +11,19 @@
 
 ## 1) YTDLP Solverの引数が酷似
 
-**判定: 強い類似（High）**
+**判定: 中〜強い類似（Medium-High）**
 
 - VizVid 側 `YtdlpResolver` は、yt-dlp 実行時に次の引数列を使用。
   - `--flat-playlist --no-write-playlist-metafiles --no-exec -sijo - {url}`
 - YamaPlayer 側 `YtdlpResolver` も、同じ主引数列を同順で組み立てて実行。
 - ダウンロード元も双方とも `https://github.com/yt-dlp/yt-dlp/releases/latest/download/` をベースにしている。
 
+**反論（「VRChat動画プレイヤーなら近くなるのは自然」）への評価**
+- この反論は妥当で、`yt-dlp` をプレイリスト取得に使う場合、`--flat-playlist` などは実務上選ばれやすい。
+- したがって「引数が似ている」単体では、決定打としては弱い。
+
 **所見**
-- 単なる yt-dlp 利用では説明しづらいレベルで、引数の並び/意図（軽量 JSON 抽出）まで一致。
+- 争点として使う場合は、**引数一致を単独主張にせず**、Playlist import の内部データ対応など他の具体要素と束ねて提示するのが安全。
 
 ---
 
@@ -86,8 +90,9 @@
 ## 総合（VizVid側主張を主軸にした整理）
 
 - **強い根拠が置ける争点**
-  1. YTDLP Solver 引数列の酷似
-  2. Playlist UI/操作導線 + VizVid内部データ互換 import
+  1. Playlist UI/操作導線 + VizVid内部データ互換 import
+- **中程度根拠の争点**
+  2. YTDLP Solver 引数列の近似（ただし業界/用途上の収束可能性あり）
 - **補強根拠として使える争点**
   3. Event 駆動設計（属性配線 vs 文字列イベント駆動）
   4. Shader include による共通処理化フロー
@@ -95,5 +100,6 @@
 
 ### 実務的な出し方（推奨）
 
-- 主張の芯は「**引数一致**」「**Playlist編集UX + VizVid互換 import の具体実装**」に置く。
+- 主張の芯は「**Playlist編集UX + VizVid互換 import の具体実装**」に置く。
+- YTDLP引数は「補強材料」として扱い、単体での同一性主張は避ける。
 - 残り3点は「設計思想の連続性」を示す補助線として提示し、過度な同一コード断定は避ける。
