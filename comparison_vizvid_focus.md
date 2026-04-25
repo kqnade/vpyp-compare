@@ -13,10 +13,10 @@
 
 **判定: 中〜強い類似（Medium-High）**
 
-- VizVid 側 `YtdlpResolver` は、yt-dlp 実行時に次の引数列を使用。
+- VizVid 側 `YtdlpResolver` は、yt-dlp 実行時に次の引数列を使用。（`repos/VVMW/Packages/idv.jlchntoz.vvmw/Editor/Common/YtdlpResolver.cs:Line 123-133`）
   - `--flat-playlist --no-write-playlist-metafiles --no-exec -sijo - {url}`
-- YamaPlayer 側 `YtdlpResolver` も、同じ主引数列を同順で組み立てて実行。
-- ダウンロード元も双方とも `https://github.com/yt-dlp/yt-dlp/releases/latest/download/` をベースにしている。
+- YamaPlayer 側 `YtdlpResolver` も、同じ主引数列を同順で組み立てて実行（先頭に `--extractor-args "youtube:lang=ja"` 追加）。（`repos/YamaPlayer/Editor/Playlist/YtdlpResolver.cs:Line 186-195`）
+- ダウンロード元も双方とも `https://github.com/yt-dlp/yt-dlp/releases/latest/download/` をベースにしている。（`repos/VVMW/Packages/idv.jlchntoz.vvmw/Editor/Common/YtdlpResolver.cs:Line 16-23`, `repos/YamaPlayer/Editor/Playlist/YtdlpResolver.cs:Line 31-32`）
 
 **反論（「VRChat動画プレイヤーなら近くなるのは自然」）への評価**
 - この反論は妥当で、`yt-dlp` をプレイリスト取得に使う場合、`--flat-playlist` などは実務上選ばれやすい。
@@ -52,6 +52,7 @@
   - タイトル再取得・並べ替え系操作
   という構成を採用。
 - YamaPlayer には VizVid 取り込み経路が明示実装されており、VizVid の内部変数名（`playListTitles`, `playListUrlOffsets`, `playListUrls`, `playListEntryTitles`, `playListPlayerIndex`）を直接読んで変換している。
+- 対応表（1行要約）: `playListTitles -> PlaylistData.name | playListUrlOffsets -> urlOffset/urlCount（tracks切り出し境界） | playListUrls -> PlaylistTrack.url | playListEntryTitles -> PlaylistTrack.title | playListPlayerIndex -> PlaylistTrack.playerType`（`repos/YamaPlayer/Editor/Playlist/PlaylistImporter.cs:Line 213-217, 226-228, 237-247, 250-255` / 定義元 `repos/VVMW/Packages/idv.jlchntoz.vvmw/Runtime/VVMW/FrontendHandler_PlayList.cs:Line 9-13`）
 
 **所見**
 - UI/操作導線だけでなく、VizVid 互換 import の内部データマッピングまで含めると、単なる偶然一致の範囲は超えている。
